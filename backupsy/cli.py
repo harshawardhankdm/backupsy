@@ -9,6 +9,7 @@ from pathlib import Path
 import click
 
 from . import __version__
+from .banner import print_banner
 from .config import ConfigError, load_config
 from .logging_utils import setup_logging
 from .runner import run_backup
@@ -18,8 +19,11 @@ EXAMPLE_CONFIG_NAME = "config.example.yaml"
 
 @click.group()
 @click.version_option(__version__, prog_name="backupsy")
-def main():
+@click.option("--no-banner", is_flag=True, default=False, help="Skip the startup ASCII banner.")
+def main(no_banner: bool):
     """backupsy: back up folders to S3-compatible storage, with rotation and alerts."""
+    if not no_banner:
+        print_banner()
 
 
 @main.command()

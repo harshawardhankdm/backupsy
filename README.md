@@ -12,6 +12,7 @@ No servers to run, no daemons, no dashboard. Point it at a folder, point it at a
 - 🧪 Dry-run mode — see exactly what would happen before it touches anything
 - 🔔 Optional webhook notification on success/failure (Slack or Discord format)
 - ⚙️ Single YAML config file; secrets stay in environment variables, never in the file
+- 🎨 A little ASCII-art flair on startup, because why not
 
 ## Install
 
@@ -90,6 +91,20 @@ destination:
 ```
 
 **GitHub Actions:** copy [`.github/workflows/scheduled-backup.yml.example`](./.github/workflows/scheduled-backup.yml.example) into your own repo as `.github/workflows/backup.yml`, add your `config.yaml`, and set the referenced secrets in your repo settings.
+
+## Suppressing the startup banner
+
+backupsy prints a small ASCII-art logo when you run a command interactively (it auto-suppresses itself when output isn't a terminal, e.g. in cron logs or CI). To turn it off explicitly:
+
+```bash
+backupsy --no-banner run --config config.yaml
+```
+
+or set it once for your whole session/environment:
+
+```bash
+export BACKUPSY_NO_BANNER=1
+```
 
 ## Roadmap
 
