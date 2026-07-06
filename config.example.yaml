@@ -1,0 +1,37 @@
+# backupsy configuration
+# Copy this to config.yaml and edit for your setup.
+# Secrets (S3 keys, webhook URL) are read from environment variables, not this file.
+
+source:
+  paths:
+    - /path/to/folder      # one or more folders to back up
+  exclude:
+    - "*.tmp"
+    - "*.log"
+    - "node_modules"
+
+archive:
+  name_prefix: "backup"     # archives are named e.g. backup-20260706-153000.tar.gz
+  format: "tar.gz"          # only tar.gz is supported in v1
+
+destination:
+  type: s3                  # only 's3' is supported in v1 (AWS S3, Backblaze B2, MinIO)
+  bucket: my-bucket
+  prefix: backups/          # folder-like prefix inside the bucket
+  endpoint_url: null        # set this for Backblaze B2 or MinIO, e.g. https://s3.us-west-000.backblazeb2.com
+  region: us-east-1
+  access_key_env: BACKUPSY_S3_ACCESS_KEY   # name of the env var holding your access key
+  secret_key_env: BACKUPSY_S3_SECRET_KEY   # name of the env var holding your secret key
+
+rotation:
+  keep_last: 7               # keep the 7 most recent backups
+  keep_days: null            # optionally also cap by age, e.g. 30
+
+notify:
+  webhook_url_env: BACKUPSY_WEBHOOK_URL   # works with Slack or Discord incoming webhooks
+  on_success: false
+  on_failure: true
+
+logging:
+  level: INFO
+  file: null                 # e.g. backupsy.log to also log to a file
